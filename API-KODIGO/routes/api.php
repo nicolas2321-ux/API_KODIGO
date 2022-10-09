@@ -17,7 +17,17 @@ use App\Http\Controllers\ArticuloController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('register', 'App\Http\Controllers\UserController@register');
+Route::post('login', 'App\Http\Controllers\UserController@authenticate');
+
+Route::group(['middleware' => ['jwt.verify']], function() {
 Route::get('/articulos',[ArticuloController::class,'index']);
 Route::post('/articulos',[ArticuloController::class,'store']);
 Route::put('/articulos/{id}',[ArticuloController::class,'update']);
 Route::delete('/articulos/{id}',[ArticuloController::class,'destroy']);
+
+Route::post('user','App\Http\Controllers\UserController@getAuthenticatedUser');
+
+});
