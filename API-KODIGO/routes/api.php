@@ -3,7 +3,7 @@
 use App\Actions\JsonApiAuth\AuthKit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ArticuloController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,3 +43,7 @@ require __DIR__ . '/json-api-auth.php';
 //        'message' => 'the email account is already confirmed now you are able to see this message...',
 //    ]);
 //})->middleware('auth:api', 'verified');
+Route::get('/articulos',[ArticuloController::class,'index']);
+Route::post('/articulos',[ArticuloController::class,'store']);
+Route::put('/articulos/{id}',[ArticuloController::class,'update']);
+Route::delete('/articulos/{id}',[ArticuloController::class,'destroy']);
