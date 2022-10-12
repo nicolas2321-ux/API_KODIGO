@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\User;
+use Error;
 
 class ArticleController extends Controller
 {
@@ -37,16 +39,20 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id_use)
     {
         //Creamos un nuevo articulo
-        $article = new Article();
-        $article->description=$request->description;
-        $article->price=$request->price;
-        $article->stock=$request->stock;
-        $article->visibility=$request->visibility;
-
-        $article->save();
+         $id_user = User::findOrFail($id_use);
+         $article = new Article();
+        if($id_user->rol == "administrador"){
+            $article->description=$request->description;
+            $article->price=$request->price;
+            $article->stock=$request->stock;
+            $article->visibility=$request->visibility;
+    
+            $article->save();
+        }
+       
     }
 
     /**
@@ -78,10 +84,10 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $user_id)
     {
-        //Actualizamos los datos
-        $articulo = Article::findOrFail($request->$id);//Acá buscamos un articulo en especifico
+       
+        $articulo = Article::findOrFail($id);//Acá buscamos un articulo en especifico
         $articulo->description=$request->description;
         $articulo->price=$request->price;
         $articulo->stock=$request->stock;
@@ -95,10 +101,17 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $user_id)
     {
         //
-        $article= Article::destroy($id);
-        return $article;
+            $id_user = User::findOrFail($user_id);
+            if($id_user->rol=="administrador"){   
+            $article= Article::destroy($id);
+            return $id_user;
+            }
+        
+        
+    
+        
     }
 }

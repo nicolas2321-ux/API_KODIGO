@@ -25,9 +25,9 @@ Route::post('login', [UserController::class,'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
 Route::get('/articulos',[ArticleController::class,'index']);
-Route::post('/articulos',[ArticleController::class,'store']);
-Route::put('/articulos/{id}',[ArticleController::class,'update']);
-Route::delete('/articulos/{id}',[ArticleController::class,'destroy']);
+Route::post('/articulos/{id_use}',[ArticleController::class,'store']);
+Route::put('/articulos/{id}/',[ArticleController::class,'update']);
+Route::delete('/articulos/{id}/{user_id}',[ArticleController::class,'destroy']);
 
 Route::post('user',[UserController::class,'getAuthenticatedUser']);
 
