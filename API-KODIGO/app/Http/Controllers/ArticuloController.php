@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Articulo;
+use App\Models\Article;
 
-class ArticuloController extends Controller
+class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class ArticuloController extends Controller
     {
         //Traemos los datos de la tabla
 
-        $articulos = Articulo::all();
-        return $articulos;
+        $articles = Article::all();
+        return $articles;
 
     }
 
@@ -40,11 +40,11 @@ class ArticuloController extends Controller
     public function store(Request $request)
     {
         //Creamos un nuevo articulo
-        $articulo = new Articulo();
-        $articulo->description=$request->description;
-        $articulo->price=$request->price;
-        $articulo->stock=$request->stock;
-        $articulo->visibility=$request->visibility;
+        $article = new Articulo();
+        $article->description=$request->description;
+        $article->price=$request->price;
+        $article->stock=$request->stock;
+        $article->visibility=$request->visibility;
 
         $articulo->save();
     }
@@ -81,7 +81,7 @@ class ArticuloController extends Controller
     public function update(Request $request, $id)
     {
         //Actualizamos los datos
-        $articulo = Articulo::findOrFail($request->$id);//Acá buscamos un articulo en especifico
+        $articulo = Article::findOrFail($request->$id);//Acá buscamos un articulo en especifico
         $articulo->description=$request->description;
         $articulo->price=$request->price;
         $articulo->stock=$request->stock;
@@ -98,7 +98,7 @@ class ArticuloController extends Controller
     public function destroy($id)
     {
         //
-        $articulo= Articulo::destroy($id);
-        return $articulo;
+        $articulo= Article::destroy($id);
+        return $article;
     }
 }
