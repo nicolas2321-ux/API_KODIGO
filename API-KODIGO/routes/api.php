@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArticuloController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,10 +24,10 @@ Route::post('register', [UserController::class,'register']);
 Route::post('login', [UserController::class,'authenticate']);
 
 Route::group(['middleware' => ['jwt.verify']], function() {
-Route::get('/articulos',[ArticuloController::class,'index']);
-Route::post('/articulos',[ArticuloController::class,'store']);
-Route::put('/articulos/{id}',[ArticuloController::class,'update']);
-Route::delete('/articulos/{id}',[ArticuloController::class,'destroy']);
+Route::get('/articulos',[ArticleController::class,'index']);
+Route::post('/articulos',[ArticleController::class,'store']);
+Route::put('/articulos/{id}',[ArticleController::class,'update']);
+Route::delete('/articulos/{id}',[ArticleController::class,'destroy']);
 
 Route::post('user',[UserController::class,'getAuthenticatedUser']);
 

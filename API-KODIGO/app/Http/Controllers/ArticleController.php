@@ -40,13 +40,13 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         //Creamos un nuevo articulo
-        $article = new Articulo();
+        $article = new Article();
         $article->description=$request->description;
         $article->price=$request->price;
         $article->stock=$request->stock;
         $article->visibility=$request->visibility;
 
-        $articulo->save();
+        $article->save();
     }
 
     /**
@@ -98,7 +98,7 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         //
-        $articulo= Article::destroy($id);
+        $article= Article::destroy($id);
         return $article;
     }
 }
