@@ -52,6 +52,9 @@ class ArticleController extends Controller
     
             $article->save();
         }
+        else{
+            return response()->json(['status' => 'usuario invalido']);
+        }
        
     }
 
@@ -108,6 +111,9 @@ class ArticleController extends Controller
             if($id_user->rol=="administrador"){   
             $article= Article::destroy($id);
             return $id_user;
+            }
+            else{
+                return response()->json(['status' => 'usuario invalido']);
             }
         
         
