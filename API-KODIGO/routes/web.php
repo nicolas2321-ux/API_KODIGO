@@ -14,5 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome');});
+
+Route::middleware('auth')->group(function () {
+    Route::post('like', 'LikeController@like')->name('like');
+    Route::delete('like', 'LikeController@unlike')->name('unlike');
 });
