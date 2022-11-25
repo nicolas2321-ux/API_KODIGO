@@ -1,0 +1,63 @@
+/*
+ * Safari and Edge polyfill for createImageBitmap
+ * https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap
+ *
+ * Support source image types Blob and ImageData.
+ *
+ * From: https://dev.to/nektro/createimagebitmap-polyfill-for-safari-and-edge-228
+ * Updated by Yoan Tournade <yoan@ytotech.com>
+ */
+if (!('createImageBitmap' in window)) {
+	  window.createImageBitmap = async function (data) {
+		    return new Promise((resolve,reject) => {
+			      let dataURL;
+			      if (data instanceof Blob) {
+				        dataURL = URL.createObjectURL(data);
+			      } else if (data instanceof ImageData) {
+				        const canvas = document.createElement('canvas');
+				        const ctx = canvas.getContext('2d');
+				        canvas.width = data.width;
+				        canvas.height = data.height;
+				        ctx.putImageData(data,0,0);
+				        dataURL = canvas.toDataURL();
+			      } else {
+				        throw new Error('createImageBitmap does not handle the provided image source type');
+			      }
+			      const img = document.createElement('img');
+			      img.addEventListener('load',function () {
+				        resolve(this);
+			      });
+			      img.src = dataURL;
+		    });
+	  };
+}
+
+;(function() {
+  if (!Element.prototype.scrollIntoViewIfNeeded) {
+    Element.prototype.scrollIntoViewIfNeeded = function (centerIfNeeded) {
+      centerIfNeeded = arguments.length === 0 ? true : !!centerIfNeeded;
+
+      var parent = this.parentNode;
+      if (parent) {
+        var parentComputedStyle = window.getComputedStyle(parent, null),
+          parentBorderTopWidth = parseInt(parentComputedStyle.getPropertyValue('border-top-width')),
+          parentBorderLeftWidth = parseInt(parentComputedStyle.getPropertyValue('border-left-width')),
+          overTop = this.offsetTop - parent.offsetTop < parent.scrollTop,
+          overBottom = (this.offsetTop - parent.offsetTop + this.clientHeight - parentBorderTopWidth) > (parent.scrollTop + parent.clientHeight),
+          overLeft = this.offsetLeft - parent.offsetLeft < parent.scrollLeft,
+          overRight = (this.offsetLeft - parent.offsetLeft + this.clientWidth - parentBorderLeftWidth) > (parent.scrollLeft + parent.clientWidth),
+          alignWithTop = overTop && !overBottom;
+
+        if ((overTop || overBottom) && centerIfNeeded) {
+          parent.scrollTop = this.offsetTop - parent.offsetTop - parent.clientHeight / 2 - parentBorderTopWidth + this.clientHeight / 2;
+        }
+        if ((overLeft || overRight) && centerIfNeeded) {
+          parent.scrollLeft = this.offsetLeft - parent.offsetLeft - parent.clientWidth / 2 - parentBorderLeftWidth + this.clientWidth / 2;
+        }
+        if ((overTop || overBottom || overLeft || overRight) && !centerIfNeeded) {
+          this.scrollIntoView(alignWithTop);
+        }
+      }
+    };
+  }
+})()

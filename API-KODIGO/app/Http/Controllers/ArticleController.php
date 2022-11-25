@@ -18,8 +18,8 @@ class ArticleController extends Controller
     {
         //Traemos los datos de la tabla
 
-        $articles = Article::all();
-        return $articles;
+        $article = Article::all();
+        return $article;
 
     }
 
@@ -90,12 +90,12 @@ class ArticleController extends Controller
     public function update(Request $request, $id, $user_id)
     {
        
-        $articulo = Article::findOrFail($id);//Acá buscamos un articulo en especifico
-        $articulo->description=$request->description;
-        $articulo->price=$request->price;
-        $articulo->stock=$request->stock;
-        $articulo->visibility=$request->visibility;
-        $articulo->save();
+        $article = Article::findOrFail($id);//Acá buscamos un articulo en especifico
+        $article->description=$request->description;
+        $article->price=$request->price;
+        $article->stock=$request->stock;
+        $article->visibility=$request->visibility;
+        $article->save();
     }
 
     /**
